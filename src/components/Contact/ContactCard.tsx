@@ -2,12 +2,17 @@ import { Button, Card, Popover, Space } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 import { useState } from "react";
+import { deleteContact } from "../../reducers/slices/contactSlice";
+import { useDispatch } from "react-redux";
+import IContact from "../../domain/IContact";
 
 interface Props {
+    setSelectedData: React.Dispatch<React.SetStateAction<IContact | null>>;
     data: { id: number; name: string; phone: number };
 }
 
 const ContactCard = (props: Props) => {
+    const dispatch = useDispatch();
     const data = props.data;
     const [visible, setVisible] = useState(false);
 
@@ -18,6 +23,12 @@ const ContactCard = (props: Props) => {
     const handleVisibleChange = (newVisible: boolean) => {
         setVisible(newVisible);
     };
+
+    const deleteItem = () => {
+        dispatch(deleteContact(data.id));
+        props.setSelectedData(null);
+    };
+
     return (
         <Card
             hoverable
@@ -30,7 +41,11 @@ const ContactCard = (props: Props) => {
                 <Popover
                     content={
                         <Space>
-                            <Button type="primary" danger={true} onClick={hide}>
+                            <Button
+                                type="primary"
+                                danger={true}
+                                onClick={deleteItem}
+                            >
                                 Yes
                             </Button>
                             <Button onClick={hide}>Cancel</Button>
