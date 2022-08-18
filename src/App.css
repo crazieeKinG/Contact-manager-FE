@@ -4,3 +4,20 @@
     background-size: cover;
     height: 100vh;
 }
+
+.contact__list {
+    height: 85vh;
+    overflow: auto;
+    padding: 0 16px;
+    border: 1px solid rgba(140, 140, 140, 0.35);
+}
+
+.contact__list__item{
+    background-color: transparent;
+    transition: .5s ease-in-out;
+    border-radius: 5px;
+}
+.contact__list__item:hover{
+    background-color: #7aafff;
+    border-radius: 5px;
+}
