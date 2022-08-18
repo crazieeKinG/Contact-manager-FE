@@ -3,8 +3,10 @@ import {
     DEFAULT_FORM_RULE,
     FORM_LABEL_SIZE,
 } from "../../constants/formConstants";
+import IContact from "../../domain/IContact";
 
 interface Props {
+    defaultContactData?: IContact;
     handleForm: (values: any) => void;
 }
 
@@ -17,6 +19,7 @@ const ContactForm = (props: Props) => {
             labelCol={FORM_LABEL_SIZE}
             labelAlign="left"
             onFinish={props.handleForm}
+            initialValues={props.defaultContactData}
         >
             <Item label="Name" name="name" rules={DEFAULT_FORM_RULE}>
                 <Input placeholder="Full name" />
