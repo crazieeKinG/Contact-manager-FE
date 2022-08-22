@@ -5,6 +5,8 @@ import { useState } from "react";
 import { deleteContact } from "../../reducers/slices/contactSlice";
 import { useDispatch } from "react-redux";
 import IContact from "../../domain/IContact";
+import { Link } from "react-router-dom";
+import { UPDATE_CONTACT } from "../../constants/routesConstants";
 
 interface Props {
     setSelectedData: React.Dispatch<React.SetStateAction<IContact | null>>;
@@ -37,7 +39,9 @@ const ContactCard = (props: Props) => {
                 <img alt="example" src="https://joeschmoe.io/api/v1/random" />
             }
             actions={[
-                <EditOutlined key="edit" />,
+                <Link to={UPDATE_CONTACT.replace(":id", data.id.toString())}>
+                    <EditOutlined key="edit" />
+                </Link>,
                 <Popover
                     content={
                         <Space>

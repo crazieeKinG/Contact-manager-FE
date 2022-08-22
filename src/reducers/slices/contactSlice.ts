@@ -41,6 +41,15 @@ const contactSlice = createSlice({
         addContact: (state, action: PayloadAction<IContactToInsert>) => {
             state.data.push({ ...action.payload, id: 5 });
         },
+        updateContact: (state, action: PayloadAction<IContact>) => {
+            console.log(state.data);
+
+            state.data.forEach((data, index) => {
+                if (state.data[index].id === action.payload.id) {
+                    state.data[index] = action.payload;
+                }
+            });
+        },
         deleteContact: (state, action: PayloadAction<number>) => {
             state.data = state.data.filter(
                 (value) => value.id !== action.payload
@@ -51,5 +60,5 @@ const contactSlice = createSlice({
 
 export default contactSlice.reducer;
 
-export const { addContact, deleteContact } =
+export const { addContact, updateContact, deleteContact } =
     contactSlice.actions;
