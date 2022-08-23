@@ -14,6 +14,11 @@ interface Props {
 
 const ContactForm = (props: Props) => {
     const { Item } = Form;
+    const initialValues = {
+        name: props.defaultContactData?.name,
+        phone: props.defaultContactData?.phone,
+        favourite: props.defaultContactData?.favourite,
+    };
 
     return (
         <Form
@@ -21,7 +26,7 @@ const ContactForm = (props: Props) => {
             labelCol={FORM_LABEL_SIZE}
             labelAlign="left"
             onFinish={props.handleForm}
-            initialValues={props.defaultContactData}
+            initialValues={initialValues}
         >
             <Item label="Name" name="name" rules={DEFAULT_FORM_RULE}>
                 <Input placeholder="Full name" />
@@ -34,6 +39,7 @@ const ContactForm = (props: Props) => {
                     beforeUpload={() => false}
                     listType="picture"
                     maxCount={1}
+                    fileList={undefined}
                 >
                     <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>

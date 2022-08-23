@@ -1,6 +1,4 @@
 import { Modal } from "antd";
-import { useEffect, useState } from "react";
-import NewContact from "../../pages/Contact/NewContact";
 
 interface Props {
     children: React.ReactNode;
