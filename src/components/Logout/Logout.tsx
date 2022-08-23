@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { SIGN_IN } from "../../constants/routesConstants";
@@ -7,8 +8,10 @@ const Logout = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    dispatch(logOut());
-    navigate(SIGN_IN);
+    useEffect(() => {
+        dispatch(logOut());
+        navigate(SIGN_IN);
+    });
 
     return <div>Logging out</div>;
 };

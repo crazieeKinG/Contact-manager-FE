@@ -3,8 +3,7 @@ interface IContact {
     name: string;
     phone: number;
     favourite: boolean;
+    photoUrl: string;
 }
-
-export type IContactToInsert = Omit<IContact, "id">;
 
 export default IContact;
