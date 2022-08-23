@@ -1,5 +1,3 @@
-import { Layout } from "antd";
-import { Content, Header } from "antd/lib/layout/layout";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import NavBar from "../components/Navbar/Navbar";
@@ -12,14 +10,12 @@ const AuthenticatedRoutes = () => {
     );
 
     return !!authentication.token ? (
-        <Layout style={{ backgroundColor: "white" }}>
-            <Header className="col-12">
-                <NavBar />
-            </Header>
-            <Content className="content__container">
+        <div>
+            <NavBar />
+            <div className="content__container">
                 <Outlet />
-            </Content>
-        </Layout>
+            </div>
+        </div>
     ) : (
         <Navigate to={SIGN_IN} />
     );

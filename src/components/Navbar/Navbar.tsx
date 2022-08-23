@@ -1,44 +1,43 @@
-import { Menu, Typography } from "antd";
+import { Menu } from "antd";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { HOME, LOGOUT, NEW_CONTACT } from "../../constants/routesConstants";
+import { HOME, LOGOUT } from "../../constants/routesConstants";
+import { RootState } from "../../reducers/store";
 
 const NavBar = () => {
+    const username = useSelector(
+        (state: RootState) => state.authentication.data.username
+    );
     return (
         <div className="row justify-content-between">
-            <Typography.Text className="col-4 text-light align-middle">
-                CONTACT MANAGER
-            </Typography.Text>
             <Menu
-                className="col-4 justify-content-end "
-                theme="dark"
+                defaultSelectedKeys={["home"]}
                 mode="horizontal"
                 items={[
                     {
                         key: "home",
                         label: (
                             <Link to={HOME} className="text-decoration-none">
-                                Home
+                                CONTACT MANAGER
                             </Link>
                         ),
                     },
                     {
-                        key: "newContact",
-                        label: (
-                            <Link
-                                to={NEW_CONTACT}
-                                className="text-decoration-none"
-                            >
-                                New Contact
-                            </Link>
-                        ),
-                    },
-                    {
-                        key: "Logout",
-                        label: (
-                            <Link to={LOGOUT} className="text-decoration-none">
-                                Logout
-                            </Link>
-                        ),
+                        key: "user",
+                        label: `Welcome! ${username}`,
+                        children: [
+                            {
+                                key: "logout",
+                                label: (
+                                    <Link
+                                        to={LOGOUT}
+                                        className="text-decoration-none"
+                                    >
+                                        Logout
+                                    </Link>
+                                ),
+                            },
+                        ],
                     },
                 ]}
             />
