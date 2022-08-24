@@ -1,1 +1,1 @@
-export const BACKEND_URL = "https://contactmanager-be.herokuapp.com/"
+export const BACKEND_URL = "https://contactmanager-be.herokuapp.com"
