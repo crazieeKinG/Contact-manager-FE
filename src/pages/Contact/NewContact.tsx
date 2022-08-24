@@ -44,6 +44,7 @@ const NewContact = () => {
                 dispatch(setSelectedContact(null));
             })
             .catch((error) => {
+                console.log(error);
                 const status = error.response.status;
                 status === 401
                     ? openNotification(
