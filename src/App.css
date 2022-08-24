@@ -1,38 +1,39 @@
-.App {
-  text-align: center;
+.content__container {
+    margin-top: 2rem;
+    border: 1px solid rgb(140, 140, 140);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 5px 5px 5px 0px rgb(140, 140, 140);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.coverPhoto {
+    background-image: url("./assets/jpg/phone.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.contact__list {
+    height: 85vh;
+    overflow: auto;
+    padding: 0 16px;
+    border: 1px solid rgba(140, 140, 140, 0.35);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.contact__list__item {
+    background-color: transparent;
+    transition: 0.5s ease-in-out;
+    border-radius: 5px;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
 }
 
-.App-link {
-  color: #61dafb;
+.contact__list__item:hover {
+    background-color: #7aafff;
+    border-radius: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+img,
+svg {
+    vertical-align: 0 !important;
 }
