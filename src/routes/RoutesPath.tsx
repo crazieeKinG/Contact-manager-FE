@@ -4,7 +4,7 @@ import { HOME, LOGOUT, SIGN_IN, SIGN_UP } from "../constants/routesConstants";
 import Home from "../pages/Home/Home";
 import SignIn from "../pages/Signin/SignIn";
 import SignUp from "../pages/Signup/SignUp";
-import AuthenticatedRoutes from "./AuthenticatedRoute";
+import AuthenticatedRoutes from "./AuthenticatedRoutes";
 
 export const RoutesPath = () => {
     return (

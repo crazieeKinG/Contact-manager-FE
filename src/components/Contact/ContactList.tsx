@@ -27,7 +27,9 @@ const ContactList = () => {
                     {(!refresh && (
                         <InfiniteScroll
                             dataLength={data.length}
-                            next={() => {}}
+                            next={() => {
+                                return undefined;
+                            }}
                             hasMore={false}
                             loader={
                                 <Skeleton

@@ -1,3 +1,5 @@
+import { notification } from "antd";
+
 export const setHeader = (token: string) => {
     return {
         headers: {
@@ -14,4 +16,19 @@ export const formatContactData = (values: any) => {
     formatedData.append("favourite", `${!!values.favourite}`);
 
     return formatedData;
+};
+
+export const openNotification = (
+    messageTitle: string,
+    messageDescription: string,
+    btn: JSX.Element
+) => {
+    const key = `notification`;
+    notification.open({
+        message: messageTitle,
+        description: messageDescription,
+        btn,
+        key,
+        duration: null,
+    });
 };
