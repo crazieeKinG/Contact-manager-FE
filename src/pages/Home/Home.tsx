@@ -15,8 +15,10 @@ import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import AuthenticationInterface from "../../interfaces/AuthenticationInterface";
 import { getAllContacts } from "../../api/contact/contactApi";
 import { ERROR, PENDING, SUCCESS } from "../../constants/apiConstant";
+import setPageTitle from "../../utils/setPageTitle";
 
 const Home = () => {
+    setPageTitle("Home")
     const { allData, contactDispatch } = useContext(
         ContactContext
     ) as ContactContextInterface;

@@ -5,8 +5,10 @@ import SigninForm from "../../components/Signin/SigninForm";
 import { ROUTES } from "../../constants";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import AuthenticationInterface from "../../interfaces/AuthenticationInterface";
+import setPageTitle from "../../utils/setPageTitle";
 
 const Signin = () => {
+    setPageTitle("Sign in");
     const { token } = useContext(AuthenticationContext)
         ?.auth as AuthenticationInterface;
 
