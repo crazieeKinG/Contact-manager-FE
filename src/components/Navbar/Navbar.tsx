@@ -25,6 +25,9 @@ const Navbar = () => {
                     label: "New contact",
                     key: "1",
                     icon: <PlusOutlined />,
+                    onClick: () => {
+                        navigate(ROUTES.ADD_CONTACT);
+                    },
                 },
                 {
                     label: "Sign out",

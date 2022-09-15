@@ -5,8 +5,10 @@ import SignupForm from "../../components/Signup/SignupForm";
 import { ROUTES } from "../../constants";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import AuthenticationInterface from "../../interfaces/AuthenticationInterface";
+import setPageTitle from "../../utils/setPageTitle";
 
 const Signup = () => {
+    setPageTitle("Sign up");
     const { token } = useContext(AuthenticationContext)
         ?.auth as AuthenticationInterface;
 

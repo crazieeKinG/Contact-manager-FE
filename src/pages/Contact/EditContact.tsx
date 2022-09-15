@@ -4,8 +4,10 @@ import { useParams } from "react-router-dom";
 import ContactForm from "../../components/Contact/ContactForm";
 import { ContactContext } from "../../contexts/ContactContext";
 import { ContactStateInterface } from "../../interfaces/ContactInterface";
+import setPageTitle from "../../utils/setPageTitle";
 
 const EditContact = () => {
+    setPageTitle("Edit Contact");
     const contactId = useParams().id;
 
     const { allContacts } = useContext(ContactContext)
