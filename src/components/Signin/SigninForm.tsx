@@ -1,14 +1,21 @@
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { Alert, Button, Form, Input } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signinApiHandler } from "../../api/authentication/authenticationApi";
 import { ROUTES } from "../../constants";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import AuthenticationInterface, {
+    AuthenticationContextInterface,
+} from "../../interfaces/AuthenticationInterface";
 
 const SigninForm = () => {
     const { Item } = Form;
 
     const navigate = useNavigate();
+    const { setAuth } = useContext(
+        AuthenticationContext
+    ) as AuthenticationContextInterface;
 
     const [loading, setLoading] = useState(false);
     const [alertMessage, setAlertMessage] = useState("");
@@ -18,7 +25,13 @@ const SigninForm = () => {
 
         console.log(values);
         signinApiHandler(values)
-            .then(() => {
+            .then((response) => {
+                console.log(response);
+                const authenticationData: AuthenticationInterface = {
+                    username: response.data.username,
+                    token: response.data.accessToken,
+                };
+                setAuth(authenticationData);
                 navigate(ROUTES.HOME);
             })
             .catch((response) => {
@@ -44,7 +57,12 @@ const SigninForm = () => {
             </Item>
 
             {alertMessage && (
-                <Alert message={alertMessage} type="error" closable className="my-2"/>
+                <Alert
+                    message={alertMessage}
+                    type="error"
+                    closable
+                    className="my-2"
+                />
             )}
 
             <Item className="text-center">

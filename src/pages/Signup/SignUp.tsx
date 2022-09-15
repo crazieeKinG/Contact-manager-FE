@@ -1,11 +1,17 @@
 import { Card, Col, Divider, Row } from "antd";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, Navigate } from "react-router-dom";
 import SignupForm from "../../components/Signup/SignupForm";
 import { ROUTES } from "../../constants";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import AuthenticationInterface from "../../interfaces/AuthenticationInterface";
 
 const Signup = () => {
-    return (
-        <Row style={{ height: "100vh" }} align="middle" justify="center">
+    const { token } = useContext(AuthenticationContext)
+        ?.auth as AuthenticationInterface;
+
+    return !token ? (
+        <Row style={{ height: "80vh" }} align="middle" justify="center">
             <Col span={12}>
                 <Card className="shadow rounded">
                     <h1 className="text-center text-primary font-rampart mb-4">
@@ -15,7 +21,7 @@ const Signup = () => {
                     <Divider>SIGN UP</Divider>
 
                     <SignupForm />
-                    
+
                     <Divider>Already registered?</Divider>
 
                     <p className="text-center">
@@ -27,6 +33,8 @@ const Signup = () => {
                 </Card>
             </Col>
         </Row>
+    ) : (
+        <Navigate to={ROUTES.HOME} />
     );
 };
 
