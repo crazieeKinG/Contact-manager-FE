@@ -1,53 +1,33 @@
-import { Alert, Card, Divider, Typography } from "antd";
-import axios from "axios";
-import { useState } from "react";
-import UserAccountForm from "../../components/LoginForm/UserAccountForm";
-import { SIGN_IN } from "../../constants/routesConstants";
+import { Card, Col, Divider, Row } from "antd";
+import { Link } from "react-router-dom";
+import SignupForm from "../../components/Signup/SignupForm";
+import { ROUTES } from "../../constants";
 
-const SignUp = () => {
-    const [message, setMessage] = useState<string | null>(null);
-    const [messageType, setMessageType] = useState<
-        "error" | "success" | "info" | "warning" | undefined
-    >("error");
-
-    const handleForm = (values: any) => {
-        delete values.confirm;
-        axios
-            .post("/signup", values)
-            .then(() => {
-                setMessage("Registration successfull! Proceed to sign-in.");
-                setMessageType("success");
-            })
-            .catch(() => {
-                setMessage("Connection error");
-                setMessageType("error");
-            });
-    };
+const Signup = () => {
     return (
-        <div className="coverPhoto pt-4">
-            <Card hoverable className="col-lg-6 mx-auto">
-                <Typography.Title level={1} className="text-center">
-                    CONTACT MANAGER
-                </Typography.Title>
-                <Divider>SIGN-UP</Divider>
-                <div className="col-lg-6 mx-auto">
-                    <UserAccountForm
-                        formType="Sign up"
-                        handleForm={handleForm}
-                    />
-                    {message && (
-                        <Alert message={message} type={messageType} closable />
-                    )}
-                    <Divider>Already registered </Divider>
-                    <div className="text-center">
-                        <Typography.Link href={SIGN_IN}>
-                            Sign-in now!
-                        </Typography.Link>
-                    </div>
-                </div>
-            </Card>
-        </div>
+        <Row style={{ height: "100vh" }} align="middle" justify="center">
+            <Col span={12}>
+                <Card className="shadow rounded">
+                    <h1 className="text-center text-primary font-rampart mb-4">
+                        CONTACT MANAGER
+                    </h1>
+
+                    <Divider>SIGN UP</Divider>
+
+                    <SignupForm />
+                    
+                    <Divider>Already registered?</Divider>
+
+                    <p className="text-center">
+                        <Link to={ROUTES.SIGN_IN} className="mx-auto">
+                            Sign-in
+                        </Link>
+                        <span> to continue!</span>
+                    </p>
+                </Card>
+            </Col>
+        </Row>
     );
 };
 
-export default SignUp;
+export default Signup;
