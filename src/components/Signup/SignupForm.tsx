@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signupApiHandler } from "../../api/authentication/authenticationApi";
 import { ROUTES } from "../../constants";
-import { ALERT_TYPES } from "../../interfaces/types";
+import { ALERT_TYPE } from "../../interfaces/types";
 
 const SignupForm = () => {
     const { Item } = Form;
@@ -13,7 +13,7 @@ const SignupForm = () => {
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
-    const [alertType, setAlertType] = useState<ALERT_TYPES>("error");
+    const [alertType, setAlertType] = useState<ALERT_TYPE>("error");
     const [alertMessage, setAlertMessage] = useState("");
 
     const handleSubmit = (values: any) => {
