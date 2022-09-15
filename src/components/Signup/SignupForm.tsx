@@ -19,11 +19,9 @@ const SignupForm = () => {
     const handleSubmit = (values: any) => {
         setLoading(true);
         delete values.confirm;
-        console.log(values);
 
         signupApiHandler(values)
             .then((response) => {
-                console.log(response);
                 setAlertType("success");
                 setAlertMessage(
                     `${response.message} - Redirecting to signin portal...`

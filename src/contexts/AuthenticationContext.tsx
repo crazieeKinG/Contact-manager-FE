@@ -3,16 +3,21 @@ import AuthenticationInterface, {
     AuthenticationContextInterface,
 } from "../interfaces/AuthenticationInterface";
 import ContextProviderPropsInterface from "../interfaces/ContextProviderPropsInterface";
+import { getCookie } from "../utils/handleCookie";
 
 export const AuthenticationContext = createContext<
     AuthenticationContextInterface | undefined
 >(undefined);
 
-export const AuthenticationContextProvider = ({ children }: ContextProviderPropsInterface) => {
+export const AuthenticationContextProvider = ({
+    children,
+}: ContextProviderPropsInterface) => {
+    const getCookieData = getCookie();
     const initialState: AuthenticationInterface = {
-        username: "",
-        token: "",
+        username: getCookieData.username,
+        token: getCookieData.token,
     };
+    
     const [auth, setAuth] = useState<AuthenticationInterface>(initialState);
 
     return (

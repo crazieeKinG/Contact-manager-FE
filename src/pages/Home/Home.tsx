@@ -73,8 +73,8 @@ const Home = () => {
     };
 
     const searchHandle = (event: any) => {
-        console.log(event.target.value);
         const searchValue = event.target.value;
+        
         const filteredData = allContacts.filter((eachData) =>
             eachData[searchField]
                 .toString()
@@ -93,7 +93,6 @@ const Home = () => {
                         searchHandler={searchHandle}
                         searchFieldHandler={handleSearchField}
                     />
-                    {allData.status === PENDING && allData.message}
                     <ContactList
                         data={data}
                         selectedHandler={setSelectedContact}
