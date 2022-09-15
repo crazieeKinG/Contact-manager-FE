@@ -1,23 +1,98 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Upload } from "antd";
+import {
+    Alert,
+    Button,
+    Checkbox,
+    Col,
+    Form,
+    Image,
+    Input,
+    Select,
+    Upload,
+} from "antd";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { insertContact, updateContact } from "../../api/contact/contactApi";
+import { ROUTES } from "../../constants";
+import { ERROR, REFRESH } from "../../constants/apiConstant";
 import {
     DEFAULT_FORM_RULE,
     FORM_LABEL_SIZE,
-} from "../../constants/formConstants";
-import IContact from "../../domain/IContact";
+} from "../../constants/formConstant";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { ContactContext } from "../../contexts/ContactContext";
+import AuthenticationInterface from "../../interfaces/AuthenticationInterface";
+import ContactInterface, {
+    ContactContextInterface,
+} from "../../interfaces/ContactInterface";
+import formatContactData from "../../utils/formatContactData";
 
 interface Props {
-    defaultContactData?: IContact;
-    handleForm: (values: any) => void;
-    loading: boolean;
+    defaultContactData?: ContactInterface;
 }
 
-const ContactForm = (props: Props) => {
-    const { Item } = Form;
+const ContactForm = ({ defaultContactData }: Props) => {
     const initialValues = {
-        name: props.defaultContactData?.name,
-        phone: props.defaultContactData?.phone,
-        favourite: props.defaultContactData?.favourite,
+        name: defaultContactData?.name,
+        phone: defaultContactData?.phone,
+        phoneType: defaultContactData?.phoneType,
+        email: defaultContactData?.email,
+        address: defaultContactData?.address,
+        favourite: defaultContactData?.favourite,
+    };
+
+    const { token } = useContext(AuthenticationContext)
+        ?.auth as AuthenticationInterface;
+    const { allData, contactDispatch } = useContext(
+        ContactContext
+    ) as ContactContextInterface;
+
+    const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(false);
+    const [phoneType, setPhoneType] = useState(
+        defaultContactData ? defaultContactData?.phoneType : "mobile"
+    );
+
+    const handleForm = (values: any) => {
+        setLoading(true);
+
+        const formattedData = formatContactData({
+            ...values,
+            phoneType: phoneType,
+        });
+
+        if (defaultContactData) {
+            updateContact(token, defaultContactData.id, formattedData)
+                .then(() => {
+                    contactDispatch({
+                        type: REFRESH,
+                    });
+                    navigate(ROUTES.HOME);
+                })
+                .catch((error) => {
+                    contactDispatch({
+                        type: ERROR,
+                        message: error.message,
+                    });
+                    setLoading(false);
+                });
+        } else {
+            insertContact(token, formattedData)
+                .then(() => {
+                    contactDispatch({
+                        type: REFRESH,
+                    });
+                    navigate(ROUTES.HOME);
+                })
+                .catch((error) => {
+                    contactDispatch({
+                        type: ERROR,
+                        message: error.message,
+                    });
+                    setLoading(false);
+                });
+        }
     };
 
     return (
@@ -25,16 +100,43 @@ const ContactForm = (props: Props) => {
             className="mx-auto mt-4"
             labelCol={FORM_LABEL_SIZE}
             labelAlign="left"
-            onFinish={props.handleForm}
+            onFinish={handleForm}
             initialValues={initialValues}
         >
-            <Item label="Name" name="name" rules={DEFAULT_FORM_RULE}>
+            <Form.Item label="Name" name="name" rules={DEFAULT_FORM_RULE}>
                 <Input placeholder="Full name" />
-            </Item>
-            <Item label="Phone number" name="phone" rules={DEFAULT_FORM_RULE}>
-                <Input placeholder="Phone number" />
-            </Item>
-            <Item label="Profile picture" name="photo">
+            </Form.Item>
+            <Form.Item label="Phone number" required>
+                <Input.Group compact>
+                    <Form.Item name="phone" rules={DEFAULT_FORM_RULE}>
+                        <Input type="number" placeholder="Phone number" />
+                    </Form.Item>
+                    <Select
+                        defaultValue={phoneType}
+                        onChange={(value) => setPhoneType(value)}
+                    >
+                        <Select.Option value="mobile">Mobile</Select.Option>
+                        <Select.Option value="work">Work</Select.Option>
+                        <Select.Option value="home">Home</Select.Option>
+                    </Select>
+                </Input.Group>
+            </Form.Item>
+            <Form.Item label="Email address" name="email">
+                <Input type="email" placeholder="Email" />
+            </Form.Item>
+            <Form.Item label="Address" name="address">
+                <Input placeholder="Address number" />
+            </Form.Item>
+            {defaultContactData?.photoUrl && (
+                <Col offset={6} className="mb-2">
+                    <Image
+                        className="border"
+                        width={100}
+                        src={defaultContactData?.photoUrl}
+                    />
+                </Col>
+            )}
+            <Form.Item label="Profile picture" name="photo">
                 <Upload
                     beforeUpload={() => false}
                     listType="picture"
@@ -43,19 +145,28 @@ const ContactForm = (props: Props) => {
                 >
                     <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>
-            </Item>
-            <Item label="Favourite" name="favourite" valuePropName="checked">
+            </Form.Item>
+            <Form.Item
+                label="Favourite"
+                name="favourite"
+                valuePropName="checked"
+            >
                 <Checkbox />
-            </Item>
-            <Item wrapperCol={{ offset: 6, span: 16 }}>
-                <Button
-                    type="primary"
-                    htmlType="submit"
-                    loading={props.loading}
-                >
+            </Form.Item>
+            {allData.status === ERROR && (
+                <Col offset={6}>
+                    <Alert
+                        closable
+                        type="error"
+                        description={allData.message}
+                    />
+                </Col>
+            )}
+            <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+                <Button type="primary" htmlType="submit" loading={loading}>
                     Save
                 </Button>
-            </Item>
+            </Form.Item>
         </Form>
     );
 };

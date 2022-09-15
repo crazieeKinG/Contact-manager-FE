@@ -1,61 +1,43 @@
-import { Alert, Card, Divider, Typography } from "antd";
-import axios from "axios";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import UserAccountForm from "../../components/LoginForm/UserAccountForm";
-import { HOME, SIGN_UP } from "../../constants/routesConstants";
-import { logIn } from "../../reducers/slices/authenticationSlice";
+import { Card, Col, Divider, Row } from "antd";
+import { useContext } from "react";
+import { Link, Navigate } from "react-router-dom";
+import SigninForm from "../../components/Signin/SigninForm";
+import { ROUTES } from "../../constants";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import AuthenticationInterface from "../../interfaces/AuthenticationInterface";
+import setPageTitle from "../../utils/setPageTitle";
 
-const SignIn = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+const Signin = () => {
+    setPageTitle("Sign in");
+    const { token } = useContext(AuthenticationContext)
+        ?.auth as AuthenticationInterface;
 
-    const handleForm = (values: any) => {
-        axios
-            .post("/signin", values)
-            .then((response) => {
-                console.log(response);
+    return !token ? (
+        <Row style={{ height: "80vh" }} align="middle" justify="center">
+            <Col span={12}>
+                <Card className="shadow rounded">
+                    <h1 className="text-center text-primary font-rampart mb-4">
+                        CONTACT MANAGER
+                    </h1>
 
-                dispatch(logIn(response.data.data));
-                navigate(HOME);
-            })
-            .catch((error) => {
-                if (error.response.status === 401) {
-                    setErrorMessage("Invalid credentials");
-                } else {
-                    setErrorMessage("Connection error");
-                }
-            });
-    };
+                    <Divider>SIGN IN</Divider>
 
-    return (
-        <div className="coverPhoto pt-4">
-            <Card hoverable className="col-lg-6 mx-auto">
-                <Typography.Title level={1} className="text-center">
-                    CONTACT MANAGER
-                </Typography.Title>
-                <Divider orientation="center">SIGN-IN</Divider>
-                <div className="col-lg-6 mx-auto">
-                    <UserAccountForm
-                        formType="Sign in"
-                        handleForm={handleForm}
-                    />
-                    {errorMessage && (
-                        <Alert message={errorMessage} type="error" closable />
-                    )}
+                    <SigninForm />
 
-                    <Divider>New here </Divider>
-                    <div className="text-center">
-                        <Typography.Link href={SIGN_UP}>
-                            Sign-up now!
-                        </Typography.Link>
-                    </div>
-                </div>
-            </Card>
-        </div>
+                    <Divider>Don't have account?</Divider>
+
+                    <p className="text-center">
+                        <Link to={ROUTES.SIGN_UP} className="mx-auto">
+                            Sign-up
+                        </Link>
+                        <span> to continue!</span>
+                    </p>
+                </Card>
+            </Col>
+        </Row>
+    ) : (
+        <Navigate to={ROUTES.HOME} />
     );
 };
 
-export default SignIn;
+export default Signin;

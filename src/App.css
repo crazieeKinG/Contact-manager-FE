@@ -1,39 +1,11 @@
-.content__container {
-    margin-top: 2rem;
-    border: 1px solid rgb(140, 140, 140);
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 5px 5px 5px 0px rgb(140, 140, 140);
-}
-
-.coverPhoto {
-    background-image: url("./assets/jpg/phone.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-}
-
-.contact__list {
-    height: 85vh;
-    overflow: auto;
-    padding: 0 16px;
-    border: 1px solid rgba(140, 140, 140, 0.35);
-}
-
-.contact__list__item {
-    background-color: transparent;
-    transition: 0.5s ease-in-out;
-    border-radius: 5px;
-    padding-left: 1rem;
-    padding-right: 0.5rem;
-}
-
-.contact__list__item:hover {
-    background-color: #7aafff;
-    border-radius: 5px;
-}
-
-img,
 svg {
-    vertical-align: 0 !important;
+    vertical-align: none;
+}
+
+.font-kalam {
+    font-family: "Kalam", cursive;
+}
+
+.font-rampart {
+    font-family: "Rampart One", cursive;
 }
