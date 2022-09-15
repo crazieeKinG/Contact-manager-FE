@@ -8,6 +8,7 @@ import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import AuthenticationInterface, {
     AuthenticationContextInterface,
 } from "../../interfaces/AuthenticationInterface";
+import { setCookie } from "../../utils/handleCookie";
 
 const SigninForm = () => {
     const { Item } = Form;
@@ -23,14 +24,13 @@ const SigninForm = () => {
     const handleSubmit = (values: any) => {
         setLoading(true);
 
-        console.log(values);
         signinApiHandler(values)
             .then((response) => {
-                console.log(response);
                 const authenticationData: AuthenticationInterface = {
                     username: response.data.username,
                     token: response.data.accessToken,
                 };
+                setCookie(response.data.username, response.data.accessToken);
                 setAuth(authenticationData);
                 navigate(ROUTES.HOME);
             })

@@ -8,6 +8,7 @@ import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import AuthenticationInterface, {
     AuthenticationContextInterface,
 } from "../../interfaces/AuthenticationInterface";
+import { deleteCookie } from "../../utils/handleCookie";
 
 const Navbar = () => {
     const { auth, setAuth } = useContext(
@@ -30,6 +31,7 @@ const Navbar = () => {
                     key: "2",
                     icon: <LogoutOutlined />,
                     onClick: () => {
+                        deleteCookie();
                         setAuth({
                             username: "",
                             token: "",
